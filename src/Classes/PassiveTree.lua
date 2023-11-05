@@ -58,13 +58,14 @@ local PassiveTreeClass = newClass("PassiveTree", function(self, treeVersion)
 
 	ConPrintf("Loading passive tree data for version '%s'...", treeVersions[treeVersion].display)
 	local treeText
-	local treeFile = io.open("TreeData/"..treeVersion.."/tree.lua", "r")
+	local treeFile = io.open("TreeData/"..treeVersion.."/krangledtree.lua", "r")
 	if treeFile then
 		treeText = treeFile:read("*a")
 		treeFile:close()
 	else
 		ConPrintf("Downloading passive tree data...")
 		local page
+		-- overwrites tree with bad mastery inactiveicons - fixed manually
 		local pageFile = io.open("TreeData/"..treeVersion.."/data.json", "r")
 		if pageFile then
 			page = pageFile:read("*a")
@@ -79,7 +80,8 @@ local PassiveTreeClass = newClass("PassiveTree", function(self, treeVersion)
 		else
 			treeText = "return " .. jsonToLua(page)
 		end
-		treeFile = io.open("TreeData/"..treeVersion.."/tree.lua", "w")
+		-- will overwrite krangled tree - be careful
+		treeFile = io.open("TreeData/"..treeVersion.."/krangledtree.lua", "w")
 		treeFile:write(treeText)
 		treeFile:close()
 	end
